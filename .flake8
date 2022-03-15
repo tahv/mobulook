@@ -1,0 +1,40 @@
+[flake8]
+select =
+    # isort
+    I,
+    # bugbear
+    B,B9,
+    # black
+    BLK,
+    # mccabe, pyflakes, pycodestyle warning and errors
+    C,F,W,E,
+    # annotation
+    ANN,
+    # docstring (pydocstyle)
+    D,
+    # darglint
+    DAR,
+
+ignore =
+    # E203: Whitespace before ':' (Black compatibility)
+    E203,
+    # W503: Line break before binary operator (Black compatibility)
+    W503,
+    # E501: Line too long (handled by B950 with a tolerance margin of 10%)
+    E501,
+    # ANN101: Missing type annotation for self in method
+    ANN101,
+    # ANN102: Missing type annotation for cls in method
+    ANN102,
+    # D107: Missing docstring in __init__
+    D107,
+    # D105: Missing docstring in magic method
+    D105,
+
+max-line-length = 80
+max-complexity = 10
+
+# Darglint options
+# Issue to support pyproject.toml: https://github.com/terrencepreilly/darglint/issues/130
+strictness=short
+docstring_style=google
