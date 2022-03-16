@@ -5,13 +5,14 @@ import json
 import tempfile
 import uuid
 
-import mobulook
 import pyfbsdk
 import pytest
 
+import mobulook
 
-@pytest.fixture(scope='function', autouse=True)
-def new_file():
+
+@pytest.fixture(scope="function", autouse=True)
+def new_file():  # type: () -> None
     """Create a new file before each test."""
     pyfbsdk.FBApplication().FileNew(False, True)
 
@@ -25,7 +26,7 @@ def marker():  # type: () -> pyfbsdk.FBModelMarker
 @pytest.fixture
 def lookfile():  # type: () -> str
     """Fixture creating en returning an empty json file to store look data."""
-    _, filepath = tempfile.mkstemp(prefix='mobulook_', suffix=".json")
+    _, filepath = tempfile.mkstemp(prefix="mobulook_", suffix=".json")
     return filepath
 
 
@@ -37,7 +38,10 @@ def test_save_name(marker, lookfile):  # type: (pyfbsdk.FBModelMarker, str) -> N
 
     assert marker.Name in saved_data
 
-def test_save_marker_look(marker, lookfile):  # type: (pyfbsdk.FBModelMarker, str) -> None
+
+def test_save_marker_look(
+    marker, lookfile
+):  # type: (pyfbsdk.FBModelMarker, str) -> None
     """It save the look data in saved json."""
     marker.Color = pyfbsdk.FBColor(1, 2, 3)
     mobulook.save(lookfile, [marker])
@@ -58,7 +62,9 @@ def test_load(marker, lookfile):  # type: (pyfbsdk.FBModelMarker, str) -> None
     assert marker.Color == pyfbsdk.FBColor(1, 1, 1)
 
 
-def test_load_with_namespace(marker, lookfile):  # type: (pyfbsdk.FBModelMarker, str) -> None
+def test_load_with_namespace(
+    marker, lookfile
+):  # type: (pyfbsdk.FBModelMarker, str) -> None
     """It load saved data to an existing marker with given namespace in scene."""
     marker.Color = pyfbsdk.FBColor(1, 1, 1)
     mobulook.save(lookfile, [marker])
@@ -75,6 +81,7 @@ def test_markerlook_from_model(marker):  # type: (pyfbsdk.FBModelMarker) -> None
     marker_look = mobulook.MarkerLook.from_model(marker)
 
     assert marker_look.color == marker.Color
+
 
 def test_markerlook_serialize(marker):  # type: (pyfbsdk.FBModelMarker) -> None
     """It can serialize data from MarkerLook instance."""
