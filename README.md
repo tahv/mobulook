@@ -81,3 +81,92 @@ for extension in character.CharacterExtensions
 
 mobulook.save("C:/output.json", markers)
 ```
+
+## Contributing
+
+Dev environment setup using **pyenv** and **poetry**.
+
+### Running the tests in cli
+
+Install python 2.7 with **pyenv** and set it as our local env. Then we tell
+**poetry** to use this version to create a venv with the necessary dependencies
+(mainly **pytest**).
+
+```cmd
+pyenv install 2.7.18
+pyenv local 2.7.18
+for /f "tokens=*" %a in ('pyenv exec python -c "import sys; print(sys.executable)"') do poetry env use %a
+poetry install
+```
+
+Now that we have a venv compatible with Motionbuilder 2020 (python 2.7.11), we
+need to add the `site-packages` directory of our poetry venv to PYTHONPATH (to
+find pytest) and the `mobulook/src` directory (to find our module).
+
+```cmd
+set PYTHONPATH=<PATH_TO_VENV>\Lib\site-packages;%PYTHONPATH%
+set PYTHONPATH=<PATH_TO_MOBULOOK>\src;%PYTHONPATH%
+```
+
+#### Motionbuilder 2022 and above
+
+We can now run the tests using the `mobupy` interpreter.
+
+```cmd
+mobupy -m pytest
+```
+
+#### Motionbuilder 2020 and below
+
+We can't use the mobupy interpreter of Motionbuilder 2020, it crashes as soon as
+you use pyfbsdk.
+
+Instead we can use the main application to run our tests.
+
+Create a python runner script. Note that the path to our test file has to be an
+absolute path, the `__file__` variable will be undefined in our case.
+
+```python
+# runner.py
+import pytest
+pytest.main([
+    "<PATH_TO_MOBULOOK>/test_mobulook.py",
+    "--capture=sys",
+])
+```
+
+And execute this runner script from Motionbuilder CLI
+
+```cmd
+motionbuilder.exe <PATH_TO_RUNNER_SCRIPT>
+```
+
+Check the **Python Editor Window** of Motionbuilder for the results.
+
+### Running the tests in VSCode
+
+> This only work with Motionbuilder >= 2022.
+
+Follow the first step of the section above to install a python venv. But instead
+of adding to PYTHONPATH in a shell, we can create an `.env` file at the root of
+our package directory and reference it in the project settings:
+
+- `mobulook/.env`:
+
+```text
+PYTHONPATH=<PATH_TO_VENV>\Lib\site-packages;${PYTHONPATH}
+PYTHONPATH=<PATH_TO_MOBULOOK>\src;${PYTHONPATH}
+```
+
+- `mobulook/.vscode/settings.json`:
+
+```json
+{
+    "python.defaultInterpreterPath": "<PATH_TO_MOBUPY>",
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true,
+    "python.envFile": "${workspaceFolder}/.env",
+}
+```
+
+The should be able to see and run the tests in the **Testing** tabs of VSCode.
