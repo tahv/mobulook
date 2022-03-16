@@ -4,29 +4,27 @@ Save and load Motionbuilder FBModelMarker look properties to json.
 
 ## How to use
 
-We provide a `save` function that dump a list of `FBModelMarker` to a json file:
+The `save` function dump a list of `FBModelMarker` to a json file:
 
 ```python
 import mobulook
-markers = []  # <- This is the list of FBModelMarker to save
+markers = []  # <- List of FBModelMarker to save
 mobulook.save("C:/look.json", markers)
 ```
 
-And a `load` function that take a path to a previously savec json file, and use
-apply its content to the matching marker in scene.
+The `load` function apply the content of a saved json file to markers in scene 
+with matching names.
 
 ```python
 mobulook.load("C:/look.json")
 ```
 
-The json file contain a mapping of marker_name -> look_data.
-Only the marker **Name** is saved, namespace is ommited.
-
-When loading the file, a prefix namespace can be applied to apply the look to
-the correct objects.
+Only the `FBModelMarker.Name` are saved in the json, namespaces are ommited.
+When loading the file, an optional prefix namespace can be applied find the 
+correct markers in scene.
 
 ```python
-# Load "look.json" to matching markers under the "Character_Ctrl" namespace
+# Load "look.json" to matching markers under "Character_Ctrl" namespace
 mobulook.load("C:/look.json", namespace="Character_Ctrl")
 ```
 
