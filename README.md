@@ -9,14 +9,14 @@ We provide a `save` function that dump a list of `FBModelMarker` to a json file:
 ```python
 import mobulook
 markers = []  # <- This is the list of FBModelMarker to save
-mobulook.save("C:/output.json", markers)
+mobulook.save("C:/look.json", markers)
 ```
 
 And a `load` function that take a path to a previously savec json file, and use
 apply its content to the matching marker in scene.
 
 ```python
-mobulook.load("C:/output.json")
+mobulook.load("C:/look.json")
 ```
 
 The json file contain a mapping of marker_name -> look_data.
@@ -26,9 +26,8 @@ When loading the file, a prefix namespace can be applied to apply the look to
 the correct objects.
 
 ```python
-# Load the content of "output.json" to markers matching names under the
-# "Character_Ctrl" namespace
-mobulook.load("C:/output.json", namespace="Character_Ctrl")
+# Load "look.json" to matching markers under the "Character_Ctrl" namespace
+mobulook.load("C:/look.json", namespace="Character_Ctrl")
 ```
 
 ## Examples
@@ -129,10 +128,7 @@ absolute path, the `__file__` variable will be undefined in our case.
 ```python
 # runner.py
 import pytest
-pytest.main([
-    "<PATH_TO_MOBULOOK>/test_mobulook.py",
-    "--capture=sys",
-])
+pytest.main(["<PATH_TO_MOBULOOK>/test_mobulook.py", "--capture=sys"])
 ```
 
 And execute this runner script from Motionbuilder CLI
@@ -169,4 +165,4 @@ PYTHONPATH=<PATH_TO_MOBULOOK>\src;${PYTHONPATH}
 }
 ```
 
-The should be able to see and run the tests in the **Testing** tabs of VSCode.
+Now you can run the tests in the **Testing** tab of VSCode.
