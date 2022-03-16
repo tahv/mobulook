@@ -5,18 +5,23 @@ description = "Save and load Motionbuilder FBModelMarker look properties to json
 authors = ["Thibaud Gambier <thibaud.gambier@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.10"
+# 2.7 for running tests in mobu (using the env site-packages)
+# 3.9 for linters / type checking / dev env
+python = "~2.7 || ^3.9"
 
 [tool.poetry.dev-dependencies]
-flake8 = "^4.0.1"
-flake8-black = "^0.3.2"
-flake8-bugbear = "^22.1.11"
-flake8-isort = "^4.1.1"
-flake8-docstrings = "^1.6.0"
-mypy = "^0.941"
-flake8-annotations = "^2.7.0"
-darglint = "^1.8.1"
-pytest = "^7.1.0"
+pytest = [
+    {version = "*", python = "^3.9"},
+    {version = "~4.6", python = "~2.7"}
+]
+flake8 = {version = "^4.0.1", python = "^3.9"}
+flake8-black = {version = "^0.3.2", python = "^3.9"}
+flake8-bugbear = {version = "^22.1.11", python = "^3.9"}
+flake8-isort = {version = "^4.1.1", python = "^3.9"}
+flake8-docstrings = {version = "^1.6.0", python = "^3.9"}
+mypy = {version = "^0.941", python = "^3.9"}
+flake8-annotations = {version = "^2.7.0", python = "^3.9"}
+darglint = {version = "^1.8.1", python = "^3.9"}
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
